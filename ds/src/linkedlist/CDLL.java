@@ -1,54 +1,61 @@
 package linkedlist;
 
-public class CSLL {
+public class CDLL {
 	private Node head;
-	private int size;
 	private Node tail;
+	private int size;
 	private static class Node{
+		Node prev;
 		int data;
 		Node next;
-		public Node(int data, Node next) {
+		public Node(Node prev, int data, Node next) {
+			this.prev = prev;
 			this.data = data;
 			this.next = next;
 		}
 		
 	}
+	
 	public void add(int data) {
-		Node newNode=new Node(data,null);
+		Node newNode=new Node(null,data,null);
 		if(head==null) {
 			addFirst(data);
+			return;
 		}
-		else {
-			addLast(data);
-		}
+		addLast(data);
 	}
 	public void addFirst(int data) {
-		Node newNode=new Node(data,null);
+		Node newNode=new Node(null,data,null);
 		if(head==null) {
 			head=newNode;
-			tail=newNode;
-			newNode.next=newNode;
+			newNode.next=head;
+			newNode.prev=head;
+			tail=head;
 			size++;
 			return;
 		}
 		newNode.next=head;
-		head=newNode;
+		head.prev=newNode;
+		head=head.prev;
+		head.prev=tail;
 		tail.next=head;
 		size++;
 	}
 	public void addLast(int data) {
-		Node newNode=new Node(data,null);
+		Node newNode=new Node(null,data,null);
 		if(head==null) {
 			addFirst(data);
 			return;
 		}
 		tail.next=newNode;
+		tail.next.prev=tail;
 		tail=tail.next;
-		newNode.next=head;
+		tail.next=head;
+		head.prev=tail;
 		size++;
 	}
 	public void add(int index,int data) {
-		Node newNode=new Node(data,null);
+		Node newNode=new Node(null,data,null);
 		if(!(index>=0 && index<=size)) {
 			return;
 		}
@@ -66,6 +73,8 @@ public class CSLL {
 		}
 		newNode.next=temp.next;
 		temp.next=newNode;
+		newNode.prev=temp;
+		newNode.next.prev=newNode;
 		size++;
 	}
 	public void remove(int data) {
@@ -76,28 +85,27 @@ public class CSLL {
 			removeFirst();
 			return;
 		}
+		if(tail.data==data) {
+			removeLast();
+			return;
+		}
 		Node temp=head;
-		Node prev=temp;
-		while(temp.next!=head) {
+		while(temp!=tail) {
 			if(temp.data==data) {
 				if(temp.data==head.data) {
 					removeFirst();
 					return;
 				}
-				prev.next=temp.next;
+				temp.prev.next=temp.next;
+				temp.next.prev=temp.prev;
 				temp.next=null;
+				temp.prev=null;
 				size--;
 				return;
 			}
-			prev=temp;
 			temp=temp.next;
 		}
-		if(temp.data==data) {
-		prev.next=head;
-		tail=prev;
-		size--;
-		return;
-		}
+		
 	}
 	public void removeFirst() {
 		if(head==null) {
@@ -108,9 +116,11 @@ public class CSLL {
 			size--;
 			return;
 		}
-		tail.next=head.next;
-		head.next=null;
-		head=tail.next;
+		head=head.next;
+		tail.next.next=null;
+		tail.next.prev=null;
+		tail.next=head;
+		head.prev=tail;
 		size--;
 	}
 	public void removeLast() {
@@ -121,71 +131,74 @@ public class CSLL {
 			removeFirst();
 			return;
 		}
-		Node temp=head;
-		while(temp.next!=tail) {
-			temp=temp.next;
-		}
-		tail=temp;
-		temp.next=null;
+		tail.next=null;
+		tail=tail.prev;
 		tail.next=head;
+		head.prev.prev=null;
+		head.prev=tail;
 		size--;
 	}
 	public int get(int index) {
-		if(!(index>=0 && index<size)) {
-			return-1;
-		}
 		Node temp=head;
+		if(!(index>=0 && index<size)) {
+			return -1;
+		}
 		for(int i=0;i<index;i++) {
 			temp=temp.next;
 		}
 		return temp.data;
 	}
 	public boolean contains(int data) {
-		Node temp=head;
 		if(head==null) {
 			return false;
 		}
-			for(int i=0;i<size;i++) {
-				if(temp.data==data) {
-					return true;
-				}
-				temp=temp.next;
+		Node temp=head;
+		for(int i=0;i<size;i++) {
+			if(temp.data==data) {
+				return true;
 			}
-			return false;
+			temp=temp.next;
+		}
+		return false;
 	}
 	public int size() {
 		return size;
 	}
 	public void display() {
+		if(head==null) {
+			return;
+		}
 		Node temp=head;
 		for(int i=0;i<size;i++) {
 			System.out.println(temp.data);
 			temp=temp.next;
 		}
-		
 	}
-	
 	public static void main(String[] args) {
-		CSLL csll=new CSLL();
-		csll.add(10);
-//		csll.add(20);
-//		csll.addFirst(30);
-//		csll.addFirst(40);
-//		csll.add(30);
-//		csll.addLast(70);
-//		csll.addLast(80);
-//		csll.add(2, 100);
-//		csll.add(2, 200);
-//		csll.remove(10);
-		csll.remove(20);
-//		csll.removeFirst();
-//		csll.removeFirst();
-//		csll.removeFirst();
-//		csll.removeLast();
-//		csll.removeLast();
-//		System.out.println(csll.get(1));
-//		System.out.println(csll.contains(20));
-		csll.display();
-		System.out.println(csll.size());
+		CDLL cdll=new CDLL();
+		cdll.add(10);
+		cdll.add(20);
+		cdll.add(30);
+//		cdll.add(40);
+//		cdll.addFirst(50);
+//		cdll.addFirst(60);
+//		cdll.addFirst(70);
+//		cdll.addLast(90);
+//		cdll.addLast(100);
+//		cdll.add(0, 80);
+//		cdll.add(0,20);
+//		cdll.add(3,110);
+//		cdll.remove(10);
+//		cdll.remove(20);
+//		cdll.removeFirst();
+//		cdll.removeFirst();
+//		cdll.removeFirst();
+//		cdll.removeLast();
+//		cdll.removeLast();
+//		cdll.display();
+//		System.out.println(cdll.size());
+//		System.out.println(cdll.get(1));
+		System.out.println(cdll.contains(40));
 	}
+
 }

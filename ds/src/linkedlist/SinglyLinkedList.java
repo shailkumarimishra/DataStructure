@@ -16,6 +16,7 @@ public class SinglyLinkedList {
 //			head=newNode;
 //			size++;
 			addFirst(data);
+			tail=head;
 		}
 		else {
 			/*Node temp=head;
@@ -37,7 +38,6 @@ public class SinglyLinkedList {
 		Node newNode=new Node(data,null);
 		newNode.next=head;
 		head=newNode;
-		tail=head;
 		size++;
 	}
 	/*
@@ -48,12 +48,12 @@ public class SinglyLinkedList {
 	 */
 	public void addLast(int data) {
 		Node newNode=new Node(data,null);
-		Node temp=head;
-		while(temp!=null && temp.next!=null) {
-			temp=temp.next;
-			tail=tail.next;
+		if(tail==null) {
+			add(data);
+			return;
 		}
-		temp.next=newNode;
+		tail.next=newNode;
+		tail=tail.next;
 		size++;
 	}
 	/*
@@ -95,7 +95,9 @@ public class SinglyLinkedList {
 	 * 3. decrease size;
 	 */
 	public void removeFirst() {
-		validateHead();
+		if(head==null) {
+			return;
+		}
 		head=head.next;
 		size--;
 	}
@@ -105,25 +107,22 @@ public class SinglyLinkedList {
 	 * 3. remove last node
 	 * 4. decrease the size
 	 */
-	/*public void removeLast() {
-		validateHead();
+	public void removeLast() {
+		if(head==null) {
+			return;
+		}
+		if(head.next==null) {
+			head=null;
+			return;
+		}
 		Node temp=head;
 		for(int i=0;i<size-2;i++) {
 			temp=temp.next;
 		}
 		temp.next=null;
 		size--;
-	}*/
-	public void removeLast() {
-		validateHead();
-		tail.next=null;
-		size--;
 	}
-	private void validateHead() {
-		if(head==null) {
-			return;
-		}
-	}
+	
 	/*
 	 * 1. validate head
 	 * 2. check the given data is first element or not
@@ -132,15 +131,17 @@ public class SinglyLinkedList {
 	 * 5. decrease the size;
 	 */
 	public void remove(int data) {
-		validateHead();
-		Node temp=head;
-		if(temp.data==data) {
-			removeFirst();
+		if(head==null) {
 			return;
 		}
-//		Node prev=temp; or
-		Node prev=null;
-		while(temp.next!=null) {
+		if(size==1 && head.data==data) {
+			head=null;
+			return;
+		}
+		Node temp=head; 
+		Node prev=temp; 
+//		Node prev=null;
+		while(temp!=null) {
 			if(temp.data==data) {
 				prev.next=temp.next;
 				temp.next=null;
@@ -150,8 +151,7 @@ public class SinglyLinkedList {
 			prev=temp;
 			temp=temp.next;
 		}
-		prev.next=null;
-		size--;
+		
 	}
 	/*
 	 * 1.check given index is valid or not
@@ -206,21 +206,21 @@ public class SinglyLinkedList {
 	}
 public static void main(String[] args) {
 	SinglyLinkedList sll=new SinglyLinkedList();
-	sll.add(10);
-	sll.add(20);
-	sll.add(30);
-	sll.addFirst(40);
-	sll.addLast(50);
-//	sll.add(6,70);
-//	sll.display();
-//	System.out.println(sll.size());
+//	sll.add(10);
+//	sll.add(20);
+//	sll.add(0, 90);
+//	sll.add(2, 70);
+//	sll.addFirst(50);
+//	sll.addLast(80);
+//	sll.addLast(20);
+//	sll.addLast(40);
 //	sll.removeFirst();
-	sll.removeLast();
-//	sll.remove(50);
-//	System.out.println(sll.get(4));
-	sll.display();
+//	sll.removeLast();
+//	sll.remove(20);
 //	System.out.println(sll.size());
-//	System.out.println(sll.contains(80));
+	System.out.println(sll.get(0));
+	System.out.println(sll.contains(20));
+	sll.display();
 	
 	
 	

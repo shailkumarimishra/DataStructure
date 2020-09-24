@@ -131,6 +131,10 @@ public class DLL {
 			return;
 		}
 		else {
+			if(size==1) {
+				head=null;
+				return;
+			}
 			head=head.next;
 			head.prev.next=null;
 			head.prev=null;
@@ -142,6 +146,10 @@ public class DLL {
 			return;
 		}
 		else {
+			if(size==1) {
+				removeFirst();
+				return;
+			}
 			tail=tail.prev;
 			tail.next.prev=null;
 			tail.next=null;
@@ -187,16 +195,17 @@ public class DLL {
 	}
 	public static void main(String[] args) {
 		DLL dll = new DLL();
-		dll.addLast(10);
-		dll.addLast(20);
-		dll.addLast(30);
-		dll.addLast(40);
-		dll.add(2, 50);
-	//	dll.remove(30);
+		dll.add(10);
+//		dll.addFirst(20);
+//		dll.addFirst(30);
+//		dll.add(0,90);
+//		dll.add(1, 80);
+//		dll.addLast(50);
+//		dll.remove(10);
+		dll.remove(20);
 //		dll.removeFirst();
 //		dll.removeLast();
-//		dll.display();
-		System.out.println(dll.get(5));
-		System.out.println(dll.contains(90));
+		System.out.println(dll.size());
+		dll.display();
 	}
 }
