@@ -29,7 +29,7 @@ public class ValidateParanthesis {
 	 return stack.isEmpty();
  }
  public static void main(String[] args) {
-	boolean exp = isValidExpression("({})");
+	boolean exp = isValidExpression("({})]");
 	System.out.println(exp);
 }
 }

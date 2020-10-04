@@ -30,11 +30,11 @@ public MyStack() {
  * 
  * T.C:- O(1)
  */
-public void push(int data) {
+public void push(int data) throws StackOverflowException {
 	if(size!=capacity)
 		array[size++]=data;
 	else 
-		throw new RuntimeException("stack overflow");
+		throw new StackOverflowException("stack overflow");
 }
 /*
  * 1. first check stack is empty or not if empty then throw exception
@@ -42,14 +42,14 @@ public void push(int data) {
  * 
  * T.C:- O(1)
  */
-public int pop() {
+public int pop() throws StackUnderflowException {
 	if(size>0) {
 	int result = this.array[size-1];
 	size--;
 	return result;
 	}
 	else {
-		throw new RuntimeException("stack underflow");
+		throw new StackUnderflowException("stack underflow");
 	}
 }
 /*
@@ -58,12 +58,12 @@ public int pop() {
  * 
  *  T.C:- O(1)
  */
-public int peek() {
+public int peek() throws StackUnderflowException {
 	if(size>0) {
 		return this.array[size-1];
 	}
 	else {
-		throw new RuntimeException("stack underflow");
+		throw new StackUnderflowException("stack underflow");
 	}
 }
 /*
@@ -84,7 +84,8 @@ public int size() {
 }
 public static void main(String[] args) {
 	MyStack stack=new MyStack();
-	System.out.println(stack.isEmpty());
+	try {
+	System.out.println(stack.isEmpty());//true
 //	stack.pop();
 	stack.push(10);
 //	stack.pop();
@@ -92,14 +93,15 @@ public static void main(String[] args) {
 	stack.push(30);
 	stack.push(40);
 	stack.push(50);
-	System.out.println(stack.isEmpty());
+	System.out.println(stack.isEmpty());//false
 	stack.push(60);
 	stack.push(70);
 	stack.push(80);
 	stack.push(90);
 	stack.push(100);
-	System.out.println(stack.size());
-	System.out.println(stack.peek());
+	System.out.println(stack.size());//10
+	stack.push(110);
+	System.out.println(stack.peek());//100
 /*	System.out.println(stack.pop());//100
 	System.out.println(stack.pop());//90
 	System.out.println(stack.pop());//80
@@ -109,7 +111,11 @@ public static void main(String[] args) {
 	for(int i=0;i<count;i++) {
 		System.out.println(stack.pop());
 	}
-	System.out.println(stack.isEmpty());
+	System.out.println(stack.isEmpty());//true
+//	System.out.println(stack.peek());
+	}catch(StackOverflowException | StackUnderflowException e) {
+		System.out.println(e.getMessage());
+	}
 }
 }
 
