@@ -8,6 +8,7 @@ package queue;
  * 5. size
  * 6. isEmpty
  * 7. isFull
+ * 8. clear
  */
 public class MyQueue {
 	private static final int CAPACITY = 10;

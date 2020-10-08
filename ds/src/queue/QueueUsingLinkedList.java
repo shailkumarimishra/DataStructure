@@ -51,6 +51,9 @@ public class QueueUsingLinkedList {
 		front=null;
 		rear=null;
 	}
+	public int size() {
+		return size;
+	}
 private static class Node{
 	int data;
 	Node next;
@@ -60,5 +63,19 @@ private static class Node{
 	}
 	
 }
-
+public static void main(String[] args) {
+	QueueUsingLinkedList queue=new QueueUsingLinkedList();
+	System.out.println(queue.deQueue());
+	queue.enQueue(10);
+	queue.enQueue(20);
+	queue.enQueue(30);
+	queue.enQueue(40);
+	System.out.println(queue.size());
+	System.out.println(queue.deQueue());
+	System.out.println(queue.deQueue());
+	System.out.println(queue.deQueue());
+	System.out.println(queue.deQueue());
+	System.out.println(queue.size());
+	System.out.println(queue.deQueue());
+}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Stack;
 
 public class ValidateParanthesis {
-	
 	private static List<String> getExpression() {
 	 List<String> expressions=new ArrayList<>();
 	 expressions.add("{");
@@ -21,15 +20,15 @@ public class ValidateParanthesis {
 			 stack.push(split[i]);
 		 }
 		 else {
-			 if(stack.size()>0) {
-			 stack.pop();
+			 if(stack.size()>0 && i<split.length) {
+				 stack.pop();
 			 }
 		 }
 	 }
 	 return stack.isEmpty();
  }
  public static void main(String[] args) {
-	boolean exp = isValidExpression("({})]");
+	boolean exp = isValidExpression("[(])");
 	System.out.println(exp);
 }
 }
