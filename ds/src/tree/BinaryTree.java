@@ -59,6 +59,26 @@ private void inOrderHelper(Node root) {
 		inOrderHelper(root.right);
 	}
 }
+public void printPreOrder() {
+	preOrderHelper(root);
+}
+private void preOrderHelper(Node root) {
+	if(root!=null) {
+		System.out.print(root.data+" ");
+		preOrderHelper(root.left);
+		preOrderHelper(root.right);
+	}
+}
+public void printPostOrder() {
+	postOrderHelper(root);
+}
+private void postOrderHelper(Node root) {
+	if(root!=null) {
+		postOrderHelper(root.left);
+		postOrderHelper(root.right);
+		System.out.print(root.data+" ");
+	}
+}
 private static class Node{
 	Node left;
 	int data;
@@ -76,6 +96,13 @@ public static void main(String[] args) {
 	tree.insert(30);
 	tree.insert(40);
 	tree.insert(50);
+	tree.insert(60);
+	tree.insert(70);
+	tree.insert(80);
 	tree.printInOrder();
+	System.out.println();
+	tree.printPreOrder();
+	System.out.println();
+	tree.printPostOrder();
 }
 }

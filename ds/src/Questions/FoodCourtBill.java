@@ -1,60 +1,80 @@
 package Questions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class FoodCourtBill {
 	private static Map<Integer, Integer> order;
-	public double price(int index) {
-		double []price= {50,100,40,200,300};
-		return price[index];
-	}
+	
 	public FoodCourtBill() {
 		order=new HashMap<>();
+		order.put(1,50);
+		order.put(2,100);
+		order.put(3,40);
+		order.put(4,200);
+		order.put(5,300);
+	}
+	private Map<Integer, Integer> convertToMap(String id, String quantity){
+		String[] items = id.split(" ");
+		String[] quantities = quantity.split(" ");
+		Map<Integer,Integer> map=new HashMap<>();
+		for(int i=0;i<items.length;i++) {
+			if(!isValidItemId(Integer.valueOf(items[i]))) {
+				return null;
+			}
+			else {
+				map.put(Integer.valueOf(items[i]),Integer.valueOf(quantities[i]));
+			}
+		}
+		return map;
+	}
+	private boolean isValidQuantity(String id,String quantity) {
+		return id.trim().length()==quantity.trim().length();
+	}
+	private boolean isValidItemId(int id) {
+		return id>=1 && id<=5;
+	}
+	private int getPrice(int itemId) {
+		return order.get(itemId);
+	}
+	
+	public double totalAmount(String id,String quantity) {
+		double sum=0;
+		Map<Integer, Integer> items = convertToMap(id, quantity);
+		for(Map.Entry<Integer, Integer> e : items.entrySet()) {
+			sum=sum+getPrice(e.getKey())*e.getValue();
+		}
+		return sum;
+	}
+	public double afterDiscount(double totalAmount, String isMember) {
+		if(totalAmount>1000 && "y".equalsIgnoreCase(isMember)) {
+			return totalAmount-(0.15*totalAmount);
+		}
+		if(totalAmount>1000 && !"y".equalsIgnoreCase(isMember)) {
+			return totalAmount-(0.10*totalAmount);
+		}
+		if(totalAmount<1000 && "y".equalsIgnoreCase(isMember)) {
+			return totalAmount-(0.05*totalAmount);
+		}
+			return totalAmount;
 	}
 	public static void main(String[] args) {
 		FoodCourtBill food=new FoodCourtBill();
 		Scanner sc=new Scanner(System.in);
-		String moreOrder="n";
-		double sum=0;
-		double bill=0;
-		String member;
-		do {
-			System.out.println("Enter menu number: ");
-			int menu = sc.nextInt();
-			System.out.println("Enter Quantity: ");
-			int quantity = sc.nextInt();
-			if((menu>0 && menu<7) && (quantity>0 && quantity<7)) {
-				order.put(menu,quantity);
-			}
-			else {
-				System.out.println("INVALID INPUT");
-				break;
-			}
-			System.out.println("more Items ?(y/n): ");
-			moreOrder = sc.next();
-		}while(moreOrder.equalsIgnoreCase("y"));
-		System.out.println("Are you member?(y/n): ");
-		member=sc.next();
-		sc.close();
-		for(Map.Entry<Integer, Integer> map:order.entrySet()) {
-			Integer index = map.getKey();
-			Integer number = map.getValue();
-			sum=sum+(food.price(index-1)*number);
-			if(sum>1000 && member.equalsIgnoreCase("y")) {
-				bill=sum-(sum*0.15);
-			}
-			else if(sum>1000 && (member!="y"|| member!="Y")) {
-				bill=sum-(sum*0.10);
-			}
-			else if(sum<1000 && member.equalsIgnoreCase("y")) {
-				bill=sum-(sum*0.05);
-			}
-			else {
-				bill=sum;
-			}
+		String itemId = sc.nextLine();
+		String quantity = sc.nextLine();
+		String isMember = sc.nextLine();
+		if(!food.isValidQuantity(itemId, quantity)  || food.convertToMap(itemId, quantity)==null) {
+			System.out.println("INVALID INPUT");
 		}
-		System.out.println(bill+" "+"INR");
+		else {
+		double totalAmount = food.totalAmount(itemId, quantity);
+		double afterDiscount = food.afterDiscount(totalAmount, isMember);
+		System.out.println(afterDiscount+" "+"INR");
+		sc.close();
+		}
 	}
 }
