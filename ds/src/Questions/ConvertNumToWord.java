@@ -14,6 +14,9 @@ public class ConvertNumToWord {
 
 	};
 	public String numberToWord(long number) {
+		if(number==0) {
+			return "Zero";
+		}
 		String word="";
 		int index=0;
 		do {
