@@ -87,7 +87,7 @@ public class BinaryTree {
 				return;
 			}
 			else if(currentNode.right==null) {
-				previousNode.left=null;
+				currentNode.left=null;
 				size--;
 				return;
 			}
@@ -244,7 +244,7 @@ public class BinaryTree {
 		tree.printLevelOrder();
 		System.out.println();
 		System.out.println(tree.getDeepestNode().data);
-		tree.deleteDeepestNode();
+		tree.remove(10);
 		tree.printLevelOrder();
 	}
 }
