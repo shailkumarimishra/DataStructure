@@ -51,7 +51,65 @@ public class BinaryTree {
 			}
 		}
 	}
-
+	public void remove(int data) {
+		Queue<Node> queue=new LinkedList<>();
+		queue.add(root);
+		while(!queue.isEmpty()) {
+			Node currentNode=queue.remove();
+			if(currentNode.data==data) {
+				//replace currentNode data with deepest Node data
+				currentNode.data=getDeepestNode().data;
+				//delete deepest node
+				deleteDeepestNode();
+				return;
+			}
+			else {
+				if(currentNode.left!=null) {
+					queue.add(currentNode.left);
+				}
+				if(currentNode.right!=null) {
+					queue.add(currentNode.right);
+				}
+			}
+		}
+		System.out.println("Node not Found");
+	}
+	private void deleteDeepestNode() {
+		Queue<Node> queue=new LinkedList<>();
+		queue.add(root);
+		Node previousNode,currentNode=null;
+		while(!queue.isEmpty()) {
+			previousNode=currentNode;
+			currentNode=queue.remove();
+			if(currentNode.left==null) {
+				previousNode.right=null;
+				size--;
+				return;
+			}
+			else if(currentNode.right==null) {
+				previousNode.left=null;
+				size--;
+				return;
+			}
+			queue.add(currentNode.left);
+			queue.add(currentNode.right);
+		}
+	}
+	private Node getDeepestNode() {
+		Queue<Node> queue=new LinkedList<>();
+		queue.add(root);
+		Node currentNode=null;
+		while(!queue.isEmpty()) {
+			currentNode=queue.remove();
+			if(currentNode.left!=null) {
+				queue.add(currentNode.left);
+			}
+			if(currentNode.right!=null) {
+				queue.add(currentNode.right);
+			}
+		}
+		return currentNode;
+	}
 	public void printLevelOrder() {
 		Queue<Node> queue = new LinkedList<>();
 		queue.add(root);
@@ -183,16 +241,10 @@ public class BinaryTree {
 		tree.insert(60);
 		tree.insert(70);
 		tree.insert(80);
-		System.out.println(tree.size());
-		tree.printInOrder();
-		System.out.println();
-		tree.printPreOrder();
-		System.out.println();
-		tree.printPostOrder();
-		System.out.println();
-		System.out.println(tree.contains(100));
 		tree.printLevelOrder();
 		System.out.println();
-		System.out.println(tree.searchByLevelOrder(300));
+		System.out.println(tree.getDeepestNode().data);
+		tree.deleteDeepestNode();
+		tree.printLevelOrder();
 	}
 }
