@@ -245,6 +245,9 @@ public class BinaryTree {
 		System.out.println();
 		System.out.println(tree.getDeepestNode().data);
 		tree.remove(10);
+		tree.remove(20);
+		tree.remove(40);
+		tree.remove(80);
 		tree.printLevelOrder();
 	}
 }
