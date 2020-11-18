@@ -39,6 +39,50 @@ public class BinarySearchTree {
 			printInOrderHelper(root.right);
 		}
 	}
+	public void delete(int data) {
+		deleteHelper(root,data);
+	}
+	private Node deleteHelper(Node root, int data) {
+		if(root==null) {
+			return null;
+		}
+		if(data<root.key) {
+			root.left=deleteHelper(root.left, data);
+		}
+		else if(data>root.key) {
+			root.right=deleteHelper(root.right, data);
+		}
+		else {
+			//if current node is the node to be deleted
+			if(root.left!=null && root.right!=null) {
+				//if node to be deleted have both children
+				Node temp=root;
+				Node minimumNode=getMinimumElement(root.right);
+				//replacing currentNode with minimum node from right subtree
+				root.key=minimumNode.key;
+				root.right=deleteHelper(root.right,minimumNode.key);//deleting minimum node from right
+			}
+			else if(root.left!=null) {
+				//if node to be deleted have only left child
+				root=root.left;
+			}
+			else if(root.right!=null) {
+				//if node to be deleted have only right child
+				root=root.right;
+			}
+			else {
+				//if node to be deleted don't have child
+				root=null;
+			}
+		}
+		return root;
+	}
+	private Node getMinimumElement(Node root) {
+		if(root.left==null) {
+			return root;
+		}
+		return root.left;
+	}
 	private static class Node{
 		Node left;
 		int key;
@@ -57,6 +101,9 @@ public class BinarySearchTree {
 		bst.add(4);
 		bst.add(2);
 		bst.add(80);
+		bst.printInOrder();
+		bst.delete(4);
+		System.out.println();
 		bst.printInOrder();
 	}
 }
