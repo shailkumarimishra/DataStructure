@@ -25,5 +25,6 @@ public static void main(String[] args) {
 		sum=sum+matrix[z][z];
 	}
 	System.out.println(sum);
+	
 }
 }
