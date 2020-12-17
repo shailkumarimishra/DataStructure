@@ -1,4 +1,9 @@
 package tree;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+
 /*
  * Operations on AVL Tree:-
  * 1. insert
@@ -50,10 +55,12 @@ public class AVLTree {
 		if(balance>1) {
 			if(checkBalance(currentNode.left.left, currentNode.left.right)>0) {
 				//LL 
-				
+				currentNode = rightRotate(currentNode);
 			}
 			else {
 				//LR 
+				currentNode.left=leftRotate(currentNode.left);
+				currentNode=rightRotate(currentNode);
 			}
 		}
 		else if(balance<-1) {
@@ -63,7 +70,8 @@ public class AVLTree {
 			}
 			else {
 				//RL
-				
+				currentNode.right=rightRotate(currentNode.right);
+				currentNode=leftRotate(currentNode);
 			}
 		}
 		if(currentNode.left!=null) {
@@ -79,6 +87,14 @@ public class AVLTree {
 		Node newRoot = currentNode.right;
 		currentNode.right=currentNode.right.left;
 		newRoot.left=currentNode;
+		currentNode.height=calculateHeight(currentNode);
+		newRoot.height=calculateHeight(newRoot);
+		return newRoot;
+	}
+	private Node rightRotate(Node currentNode) {
+		Node newRoot = currentNode.left;
+		currentNode.left=currentNode.left.right;
+		newRoot.right=currentNode;
 		currentNode.height=calculateHeight(currentNode);
 		newRoot.height=calculateHeight(newRoot);
 		return newRoot;
@@ -107,6 +123,20 @@ public class AVLTree {
 			return rootLeft.height-rootRight.height;
 		}
 	}
+	public void printLevelOrder() {
+		Queue<Node> queue = new LinkedList<>();
+		queue.add(root);
+		while (!queue.isEmpty()) {
+			Node currentNode = queue.remove();
+			System.out.print(currentNode.data + " ");
+			if (currentNode.left != null) {
+				queue.add(currentNode.left);
+			}
+			if (currentNode.right != null) {
+				queue.add(currentNode.right);
+			}
+		}
+	}
 private static class Node{
 	int data;
 	int height;
@@ -117,8 +147,21 @@ private static class Node{
 		this.height = height;
 		this.left = left;
 		this.right = right;
-	}
-	
-	
+	}	
+}
+public static void main(String[] args) {
+	AVLTree tree=new AVLTree();//30,20,40,10,5,3,4,50,60,70,65
+	tree.insert(30);
+	tree.insert(20);
+	tree.insert(40);
+	tree.insert(10);
+	tree.insert(5);
+	tree.insert(3);
+	tree.insert(4);
+	tree.insert(50);
+//	tree.insert(60);
+//	tree.insert(70);
+//	tree.insert(65);
+	tree.printLevelOrder();
 }
 }
