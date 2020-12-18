@@ -32,7 +32,11 @@ import java.util.Queue;
  *  case4 (RL):- first apply LL and then apply RR.
  *  
  *  Note:- For case1 & case2 apply Grapes Demo and for case3 & case4 apply Wall Demo.
- *    
+ *  
+ *  Q1. Check given tree is balanced or not?
+ *  Q2. Write code for RR condition?(In another word,Write code for left rotation?).
+ *  Q3. Write code for LL condition, LR condition, RL condition?
+ *  Q4. Find height of a given tree?
  */
 public class AVLTree {
 	private Node root;
@@ -91,6 +95,15 @@ public class AVLTree {
 		newRoot.height=calculateHeight(newRoot);
 		return newRoot;
 	}
+	/**
+	 * 1. make a new node e.g; Node newRoot = currentNode.left;
+	 * 2. separate the current node e.g; currentNode.left=currentNode.left.right;
+	 * 3. add current node to the right of new node
+	 * 4. update current node's height
+	 * 5. update new node's height
+	 * @param currentNode
+	 * @return new node
+	 */
 	private Node rightRotate(Node currentNode) {
 		Node newRoot = currentNode.left;
 		currentNode.left=currentNode.left.right;
@@ -110,11 +123,12 @@ public class AVLTree {
 		if(rootLeft==null && rootRight==null) {
 			return 0;
 		}
-		/*if left node is not present then simply return right node's height+1
-		 * we need to make it -1 because blank height is considered as -1.
+		/*if right node is not present then simply return (left node's height+1)
+		 * (we need to make it -1 because blank height is considered as -1)
+		 * and if left node is not present then return -(right node's height+1).  
 		*/
 		else if(rootLeft==null) {
-			return -1*(rootRight.height);
+			return -(rootRight.height+1);
 		}
 		else if(rootRight==null) {
 			return rootLeft.height+1;
@@ -159,9 +173,12 @@ public static void main(String[] args) {
 	tree.insert(3);
 	tree.insert(4);
 	tree.insert(50);
-//	tree.insert(60);
-//	tree.insert(70);
-//	tree.insert(65);
+	tree.insert(60);
+	tree.insert(70);
+	tree.insert(65);
 	tree.printLevelOrder();
+	int height = tree.calculateHeight(tree.root);
+	System.out.println();
+	System.out.println(height);
 }
 }
