@@ -54,38 +54,7 @@ public class AVLTree {
 		else {
 			currentNode.right=insertHelper(currentNode.right, data);
 		}
-		// This is where we will do AVL balancing
-		int balance = checkBalance(currentNode.left,currentNode.right);
-		if(balance>1) {
-			if(checkBalance(currentNode.left.left, currentNode.left.right)>0) {
-				//LL 
-				currentNode = rightRotate(currentNode);
-			}
-			else {
-				//LR 
-				currentNode.left=leftRotate(currentNode.left);
-				currentNode=rightRotate(currentNode);
-			}
-		}
-		else if(balance<-1) {
-			if(checkBalance(currentNode.right.right, currentNode.right.left)>0) {
-				//RR 
-				currentNode = leftRotate(currentNode);
-			}
-			else {
-				//RL
-				currentNode.right=rightRotate(currentNode.right);
-				currentNode=leftRotate(currentNode);
-			}
-		}
-		if(currentNode.left!=null) {
-			currentNode.left.height=calculateHeight(currentNode.left);
-		}
-		if(currentNode.right!=null) {
-			currentNode.right.height=calculateHeight(currentNode.right);
-		}
-		currentNode.height=calculateHeight(currentNode);
-		return currentNode;
+		return doBalance(currentNode);
 	}
 	private Node leftRotate(Node currentNode) {
 		Node newRoot = currentNode.right;
@@ -151,6 +120,86 @@ public class AVLTree {
 			}
 		}
 	}
+	public void remove(int data) {
+		root=removeHelper(root,data);
+	}
+	private Node removeHelper(Node currentNode,int data) {
+		if(currentNode==null) {
+			return null;
+		}
+		else if(data<=currentNode.data) {
+			currentNode.left=removeHelper(currentNode.left, data);
+		}
+		else if(data>currentNode.data) {
+			currentNode.right=removeHelper(currentNode.right, data);
+		}
+		else {
+			//node to be deleted have both children present
+			if(currentNode.left!=null && currentNode.right!=null) {
+				Node temp=currentNode;
+				//find minimum node from right subtree
+				Node minimumNode = getMinimumElement(temp.right);
+				//replace current node with minimum node from right subtree
+				currentNode.data=minimumNode.data;
+				//delete minimum node from right.
+				removeHelper(currentNode.right,minimumNode.data);
+			}
+			//if node to be deleted has only right child
+			else if(currentNode.right!=null) {
+				currentNode=currentNode.right;
+			}
+			//if node to be deleted has only left child
+			else if(currentNode.left!=null) {
+				currentNode=currentNode.left;
+			}
+			//if node to be deleted do not have child(leaf Node)
+			else {
+				currentNode=null;
+			}
+		}
+		return doBalance(currentNode);
+	}
+	private Node doBalance(Node currentNode) {
+		int balance = checkBalance(currentNode.left,currentNode.right);
+		if(balance>1) {
+			if(checkBalance(currentNode.left.left, currentNode.left.right)>0) {
+				//LL 
+				currentNode = rightRotate(currentNode);
+			}
+			else {
+				//LR 
+				currentNode.left=leftRotate(currentNode.left);
+				currentNode=rightRotate(currentNode);
+			}
+		}
+		else if(balance<-1) {
+			if(checkBalance(currentNode.right.right, currentNode.right.left)>0) {
+				//RR 
+				currentNode = leftRotate(currentNode);
+			}
+			else {
+				//RL
+				currentNode.right=rightRotate(currentNode.right);
+				currentNode=leftRotate(currentNode);
+			}
+		}
+		if(currentNode.left!=null) {
+			currentNode.left.height=calculateHeight(currentNode.left);
+		}
+		if(currentNode.right!=null) {
+			currentNode.right.height=calculateHeight(currentNode.right);
+		}
+		currentNode.height=calculateHeight(currentNode);
+		return currentNode;
+	}
+	private Node getMinimumElement(Node root) {
+		if(root.left==null) {
+			return root;
+		}
+		else {
+			return getMinimumElement(root.left);
+		}
+	}
 private static class Node{
 	int data;
 	int height;
@@ -180,5 +229,8 @@ public static void main(String[] args) {
 	int height = tree.calculateHeight(tree.root);
 	System.out.println();
 	System.out.println(height);
+	tree.remove(50);
+	System.out.println();
+	tree.printLevelOrder();
 }
 }
