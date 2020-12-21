@@ -127,13 +127,15 @@ public class AVLTree {
 		if(currentNode==null) {
 			return null;
 		}
-		else if(data<=currentNode.data) {
+		if(data<currentNode.data) {
 			currentNode.left=removeHelper(currentNode.left, data);
 		}
 		else if(data>currentNode.data) {
 			currentNode.right=removeHelper(currentNode.right, data);
 		}
+		//if current node is the node to be deleted
 		else {
+//			System.out.println(currentNode.data+".......");
 			//node to be deleted have both children present
 			if(currentNode.left!=null && currentNode.right!=null) {
 				Node temp=currentNode;
@@ -156,6 +158,7 @@ public class AVLTree {
 			else {
 				currentNode=null;
 			}
+			return currentNode;
 		}
 		return doBalance(currentNode);
 	}
@@ -229,6 +232,18 @@ public static void main(String[] args) {
 	int height = tree.calculateHeight(tree.root);
 	System.out.println();
 	System.out.println(height);
+	tree.remove(40);
+	System.out.println();
+	tree.printLevelOrder();
+	tree.remove(60);
+	System.out.println();
+	tree.printLevelOrder();
+	tree.remove(65);
+	System.out.println();
+	tree.printLevelOrder();
+	tree.remove(30);
+	System.out.println();
+	tree.printLevelOrder();
 	tree.remove(50);
 	System.out.println();
 	tree.printLevelOrder();
