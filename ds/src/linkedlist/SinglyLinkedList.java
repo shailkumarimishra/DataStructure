@@ -113,6 +113,7 @@ public class SinglyLinkedList {
 		}
 		if(head.next==null) {
 			head=null;
+			size--;
 			return;
 		}
 		Node temp=head;
@@ -120,6 +121,7 @@ public class SinglyLinkedList {
 			temp=temp.next;
 		}
 		temp.next=null;
+		tail=temp;
 		size--;
 	}
 	
@@ -136,6 +138,7 @@ public class SinglyLinkedList {
 		}
 		if(size==1 && head.data==data) {
 			head=null;
+			size--;
 			return;
 		}
 		Node temp=head; 
@@ -143,6 +146,9 @@ public class SinglyLinkedList {
 //		Node prev=null;
 		while(temp!=null) {
 			if(temp.data==data) {
+				if(temp.next==null) {
+					tail=prev;
+				}
 				prev.next=temp.next;
 				temp.next=null;
 				size--;
@@ -206,7 +212,7 @@ public class SinglyLinkedList {
 	}
 public static void main(String[] args) {
 	SinglyLinkedList sll=new SinglyLinkedList();
-//	sll.add(10);
+	sll.add(10);
 //	sll.add(20);
 //	sll.add(0, 90);
 //	sll.add(2, 70);
@@ -216,11 +222,12 @@ public static void main(String[] args) {
 //	sll.addLast(40);
 //	sll.removeFirst();
 //	sll.removeLast();
-//	sll.remove(20);
+	sll.remove(10);
 //	System.out.println(sll.size());
-	System.out.println(sll.get(0));
-	System.out.println(sll.contains(20));
+//	System.out.println(sll.get(0));
+//	System.out.println(sll.contains(20));
 	sll.display();
+	System.out.println(sll.size());
 	
 	
 	

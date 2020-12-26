@@ -33,6 +33,25 @@ public void add(int data) {
 		array[size++]=data;
 	}
 }
+/**
+ * T.C:- O(n)
+ * S.C:- O(1)
+ * 1. Validate given index range.
+ * 2. Iterate loop and do right shifting.
+ * 3. Add element at the index given.
+ * 4. At the end increase the size.
+ * @param index
+ * @param data
+ */
+public void add(int index,int data) {
+	if(index>=0 && index<size) {
+		for(int i=size-1;i>=index;i--) {
+			array[i+1]=array[i];
+		}
+		array[index]=data;
+		size++;
+	}
+}
 /*
  * 1. first check index is in the range. 
  * 2. start the loop from index till size.
@@ -120,6 +139,10 @@ public static void main(String[] args) {
 	System.out.println(array.size());
 	System.out.println("---------------");
 	array.remove(15);
+	array.display();
+	System.out.println(array.size());
+	System.out.println("****************");
+	array.add(2, 66);
 	array.display();
 	System.out.println(array.size());
 }

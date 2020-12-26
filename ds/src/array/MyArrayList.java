@@ -63,7 +63,7 @@ public class MyArrayList {
 	 * S.C:-O(1)
 	 */
 	public int get(int index) {
-		if (index > 0 && index < size) {
+		if (index >= 0 && index < size) {
 			return array[index];
 		}
 		return -1;
@@ -110,6 +110,7 @@ public class MyArrayList {
 		list.add(70);
 		list.display();
 		System.out.println(list.size());
+//		System.out.println(list.get(0));
 //		list.remove(3);
 //	list.remove(5);
 //		list.display();
