@@ -133,6 +133,7 @@ public class DLL {
 		else {
 			if(size==1) {
 				head=null;
+				size--;
 				return;
 			}
 			head=head.next;
@@ -163,7 +164,7 @@ public class DLL {
 		if(index==0) {
 			return head.data;
 		}
-		if(index==size) {
+		if(index==size-1) {
 			return tail.data;
 		}
 		Node temp=head;

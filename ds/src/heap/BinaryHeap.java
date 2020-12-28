@@ -53,6 +53,52 @@ public void deleteHeap() {
 	arr=null;
 	size=0;
 }
+public int poll() {
+	if(size==0) {
+		return -1;
+	}
+	else {
+		int temp=arr[0];
+		arr[0]=arr[size-1];
+		heapyfyTopToBottom(0);
+		size--;
+		return temp;
+	}
+}
+private void heapyfyTopToBottom(int index) {
+	int left=index;
+	int right=index+1;
+	int smallestChild=0;
+	//if there is no child of this node
+	if(size==1) {
+		return;
+	}
+	//if their is only left child of this node then do a comparison & return
+	else if(size==left+2) {
+		if(arr[index]>arr[left]) {
+			int temp=arr[index];
+			arr[index]=arr[left];
+			arr[left]=temp;
+		}
+		return;
+	}
+	//if both children are there,find out the smallest child
+	else {
+		if(arr[left]<arr[right]) {
+			smallestChild=left;
+		}
+		else {
+			smallestChild=right;
+		}
+		//if parent is greater than smallest child then do swapping
+		if(arr[index]>arr[smallestChild]) {
+			int temp=arr[index];
+			arr[index]=arr[smallestChild];
+			arr[smallestChild]=temp;
+		}
+	}
+	heapyfyTopToBottom(smallestChild);
+}
 public static void main(String[] args) {
 	BinaryHeap heap=new BinaryHeap();
 	heap.insert(10);
@@ -61,10 +107,7 @@ public static void main(String[] args) {
 	heap.insert(30);
 	heap.insert(3);
 	heap.insert(50);
-	System.out.println(heap.isEmpty());
+	System.out.println(heap.poll());
 	heap.display();
-	heap.deleteHeap();
-	System.out.println();
-	System.out.println(heap.isEmpty());
 }
 }
