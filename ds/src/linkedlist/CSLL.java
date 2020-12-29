@@ -78,10 +78,10 @@ public class CSLL {
 		}
 		Node temp=head;
 		Node prev=temp;
-		while(temp.next!=head) {
+		for(int i=0;i<size;i++) {
 			if(temp.data==data) {
-				if(temp.data==head.data) {
-					removeFirst();
+				if(temp.next==head) {
+					removeLast();
 					return;
 				}
 				prev.next=temp.next;
@@ -91,12 +91,6 @@ public class CSLL {
 			}
 			prev=temp;
 			temp=temp.next;
-		}
-		if(temp.data==data) {
-		prev.next=head;
-		tail=prev;
-		size--;
-		return;
 		}
 	}
 	public void removeFirst() {
@@ -168,16 +162,16 @@ public class CSLL {
 	public static void main(String[] args) {
 		CSLL csll=new CSLL();
 		csll.add(10);
-//		csll.add(20);
+		csll.add(20);
 //		csll.addFirst(30);
 //		csll.addFirst(40);
-//		csll.add(30);
+		csll.add(30);
 //		csll.addLast(70);
 //		csll.addLast(80);
 //		csll.add(2, 100);
 //		csll.add(2, 200);
 //		csll.remove(10);
-		csll.remove(20);
+		csll.remove(30);
 //		csll.removeFirst();
 //		csll.removeFirst();
 //		csll.removeFirst();
