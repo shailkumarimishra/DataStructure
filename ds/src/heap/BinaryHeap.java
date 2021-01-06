@@ -107,7 +107,11 @@ public static void main(String[] args) {
 	heap.insert(30);
 	heap.insert(3);
 	heap.insert(50);
-	System.out.println(heap.poll());
-	heap.display();
+//	System.out.println(heap.poll());
+	System.out.println();
+	for(int i=0;i<6;i++) {
+		System.out.print(heap.poll()+" ");
+	}
+//	heap.display();
 }
 }
