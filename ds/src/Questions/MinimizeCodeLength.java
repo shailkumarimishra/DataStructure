@@ -1,5 +1,7 @@
 package Questions;
 
+import java.util.function.Predicate;
+
 public class MinimizeCodeLength {
 /*public boolean abcd(int h) {
 	if(h==0) {
@@ -16,10 +18,12 @@ public class MinimizeCodeLength {
 			return true;
 		return false;
 	}
-//	Method 2:-
+
 	public static void main(String[] args) {
-		/*
-		 * boolean test=(h)->{ if(h==0) return true; return false; };
-		 */
+		System.out.println(new MinimizeCodeLength().abcd(0));
+//		Method 2:-
+		  Predicate<Integer> result=(h)->{ if(h==0) return true; return false; };
+		  System.out.println(result.test(1));
+		 
 	}
 }
