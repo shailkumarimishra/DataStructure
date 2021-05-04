@@ -15,6 +15,10 @@ public class StringPattern {
 	public static Set<String> printAllStringCombination(String s) {
 		Set<String> output = new HashSet<>();
 		String temp = s;
+		if(s.length()<=2){
+			output.add(s);
+			return output;
+		}
 		do {
 			String endString = temp.substring(temp.length() - 2);
 			temp = endString.concat(temp.substring(0, temp.length() - 2));
