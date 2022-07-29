@@ -18,6 +18,11 @@ import java.util.Scanner;
  * @author HP
  *
  */
+/**
+ * 
+ * @author Java Learning_point
+ *
+ */
 public class HighestEvenNumber {
 public int getThirdHighestNumber(int length,List<Integer> list) {
 	int count=0;
@@ -43,6 +48,8 @@ public static void main(String[] args) {
 		input.add(next);
 	}
 	int result = num.getThirdHighestNumber(len,input);
-	System.out.println(result);
+	System.out.println("Third Highest Even No= "+result);
 }
 }
+
+
